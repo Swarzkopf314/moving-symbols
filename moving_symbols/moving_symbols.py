@@ -432,7 +432,7 @@ class MovingSymbolsEnvironment:
             bg_image_loader = ImageLoader(os.path.join(self.params['background_data_dir'],
                                                        self.params['split']))
 
-        for id in xrange(self.params['num_symbols']):
+        for id in range(self.params['num_symbols']):
             label = self.params['symbol_labels'][
                 np.random.randint(len(self.params['symbol_labels']))
             ]
@@ -759,7 +759,7 @@ class MovingSymbolsEnvironment:
         for symbol in self.symbols:
             symbol.set_scale(self._step_count)
         # Take several partial steps in the simulator to stop symbols from phasing through objects
-        for _ in xrange(self.fidelity):
+        for _ in range(self.fidelity):
             self._space.step(1 / float(self.fidelity))
 
 
@@ -834,7 +834,7 @@ class MovingSymbolsEnvironment:
             M[1, 2] += position[1] - height/2.
 
             overlay = cv2.warpAffine(np.array(symbol.image), M, self.video_size) / 255.
-            alpha = np.stack([overlay[:, :, 3] for _ in xrange(3)], axis=2)
+            alpha = np.stack([overlay[:, :, 3] for _ in range(3)], axis=2)
             ret = (1 - alpha) * ret + alpha * overlay[:, :, :3]
 
         # Get image to RGB 0-255 format

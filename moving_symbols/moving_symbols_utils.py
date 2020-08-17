@@ -12,7 +12,7 @@ def merge_dicts(*dicts):
     """
     ret = {}
     for d in dicts:
-        for k, v in d.iteritems():
+        for k, v in d.items():
             ret[k] = v
     return ret
 

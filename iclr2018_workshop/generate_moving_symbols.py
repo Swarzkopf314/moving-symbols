@@ -12,7 +12,6 @@ import sys
 import numpy as np
 
 PROJ_ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-print(PROJ_ROOT_DIR)
 sys.path.append(PROJ_ROOT_DIR)
 
 from moving_symbols.moving_symbols import MovingSymbolsEnvironment
@@ -154,7 +153,7 @@ def generate_moving_symbols_video(seed, num_frames, params):
     env.add_subscriber(sub)
 
     all_frames = []
-    for _ in xrange(num_frames):
+    for _ in range(num_frames):
         frame = env.next()
         all_frames.append(np.array(frame))
     video_tensor = np.array(all_frames, dtype=np.uint8)
@@ -166,9 +165,9 @@ def generate_moving_symbols_video(seed, num_frames, params):
 def generate_all_moving_symbol_videos(pool, pool_seed, num_videos, num_frames, params, dataset_name):
     print('Working on %s...' % dataset_name)
     output_dir = os.path.join(PROJ_ROOT_DIR, 'output')
-    arg_tups = [(seed, num_frames, params) for seed in xrange(pool_seed, pool_seed+num_videos)]
+    arg_tups = [[seed, num_frames, params] for seed in range(pool_seed, pool_seed+num_videos)]
     # Get list of V TxHxW(xC) videos
-    video_data = pool.map(generate_moving_symbols_video, arg_tups)
+    video_data = pool.starmap(generate_moving_symbols_video, arg_tups)
     videos, symbol_classes, trajectories = zip(*video_data)
     videos = np.stack(videos, axis=0)  # V x T x H x W (x C)
     symbol_classes = np.stack(symbol_classes, axis=0)  # V x D
@@ -194,12 +193,10 @@ def main():
 
     pool = multiprocessing.Pool()
     training_params, testing_params = get_param_dicts()
-    for dataset_name, params in training_params.iteritems():
-        generate_all_moving_symbol_videos(pool, pool_seed, num_training_videos, num_training_frames,
-                                        params, dataset_name)
-    for dataset_name, params in testing_params.iteritems():
-        generate_all_moving_symbol_videos(pool, pool_seed, num_testing_videos, num_testing_frames,
-                                        params, dataset_name)
+    for dataset_name, params in training_params.items():
+        generate_all_moving_symbol_videos(pool, pool_seed, num_training_videos, num_training_frames, params, dataset_name)
+    for dataset_name, params in testing_params.items():
+        generate_all_moving_symbol_videos(pool, pool_seed, num_testing_videos, num_testing_frames, params, dataset_name)
 
 if __name__ == '__main__':
     main()
