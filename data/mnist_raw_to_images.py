@@ -1,7 +1,6 @@
 import os
 import struct
 import numpy as np
-from scipy.misc import imsave
 import cv2
 from PIL import Image
 
@@ -17,14 +16,14 @@ def mnist_read(dataset = "training", path = "."):
     being a numpy.uint8 2D array of pixel data for the given image.
     """
 
-    if dataset is "training":
+    if dataset == "training":
         fname_img = os.path.join(path, 'train-images-idx3-ubyte')
         fname_lbl = os.path.join(path, 'train-labels-idx1-ubyte')
-    elif dataset is "testing":
+    elif dataset == "testing":
         fname_img = os.path.join(path, 't10k-images-idx3-ubyte')
         fname_lbl = os.path.join(path, 't10k-labels-idx1-ubyte')
     else:
-        raise ValueError, "dataset must be 'testing' or 'training'"
+        raise ValueError("dataset must be 'testing' or 'training'")
 
     # Load everything in some numpy arrays
     with open(fname_lbl, 'rb') as flbl:
@@ -38,7 +37,7 @@ def mnist_read(dataset = "training", path = "."):
     get_img = lambda idx: (lbl[idx], img[idx])
 
     # Create an iterator which returns each image in turn
-    for i in xrange(len(lbl)):
+    for i in range(len(lbl)):
         yield get_img(i)
 
 
@@ -59,7 +58,7 @@ def main():
             _, color_mask = cv2.threshold(alpha_mask, 0, 255, cv2.THRESH_BINARY)
             image = np.stack((color_mask, color_mask, color_mask, alpha_mask), axis=-1)
             image_path = os.path.join(digit_dir, '%04d.png' % digit_counts[label])
-            with open(image_path, 'w') as f:
+            with open(image_path, 'wb') as f:
                 Image.fromarray(image).save(f)
             digit_counts[label] += 1
 

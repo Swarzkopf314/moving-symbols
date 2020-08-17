@@ -12,9 +12,10 @@ import sys
 import numpy as np
 
 PROJ_ROOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+print(PROJ_ROOT_DIR)
 sys.path.append(PROJ_ROOT_DIR)
 
-from moving_symbols import MovingSymbolsEnvironment
+from moving_symbols.moving_symbols import MovingSymbolsEnvironment
 
 
 class MovingSymbolsClassTrajectoryTracker:
@@ -146,7 +147,7 @@ def get_param_dicts():
     return training_dicts, testing_dicts
 
 
-def generate_moving_symbols_video((seed, num_frames, params)):
+def generate_moving_symbols_video(seed, num_frames, params):
     """Create the T x H x W (x C) NumPy array for one video."""
     sub = MovingSymbolsClassTrajectoryTracker()
     env = MovingSymbolsEnvironment(params, seed)

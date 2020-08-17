@@ -59,7 +59,7 @@ import pymunk as pm
 import pymunk.pygame_util as pmu
 from PIL import Image
 
-from moving_symbols_utils import merge_dicts, tight_crop, compute_pm_hull_vertices, \
+from moving_symbols.moving_symbols_utils import merge_dicts, tight_crop, compute_pm_hull_vertices, \
     create_sine_fn, create_triangle_fn
 
 _COLLISION_TYPES = dict(
@@ -360,7 +360,7 @@ class MovingSymbolsEnvironment:
         show_pymunk_debug=False,
         show_bounding_poly=False,
         show_frame_number=False,
-        frame_rate=sys.maxint
+        frame_rate=sys.maxsize
     )
 
 
