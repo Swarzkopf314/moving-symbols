@@ -11,3 +11,9 @@ output/
 *.npy
 *.pyc
 *.mat
+
+__pycache__
+.ipynb_checkpoints
+.~lock*
+
+.vscode
